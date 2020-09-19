@@ -6,7 +6,7 @@ const logger = require('morgan');
 
 const app = express();
 
-const albums = require('./api/ablums');
+const albums = require('./api/albums');
 
 app.use(logger('dev'));
 app.use(express.json());
@@ -14,8 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Routes
-app.use('/api/v1/albums', albums)
-
+app.use('/api/v1/albums', albums);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
