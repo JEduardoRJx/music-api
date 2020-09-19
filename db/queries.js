@@ -1,7 +1,7 @@
 const knex = require('./knex'); // the connection
 
 module.exports = {
-  getAll() {
-    
-  }
-}
+	getAll() {
+		return knex('album');
+	}
+};
