@@ -36,4 +36,22 @@ describe('CRUD Albums', () => {
 				done();
 			});
 	});
+
+	it('It creates a new album', (done) => {
+		request(app)
+			.post('/api/v1/albums')
+			.send(fixtures.album)
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200)
+			.then((res) => {
+				expect(res.body).to.be.a('object');
+				fixtures.album.id = res.body.id;
+				expect(res.body).to.deep.equal(fixtures.album);
+				done();
+			})
+			.catch((error) => {
+				return error && done();
+			});
+	});
 });
