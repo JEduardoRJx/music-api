@@ -6,3 +6,4 @@ albums = albums.map((album, i) => {
 module.exports = {
 	albums
 };
+
