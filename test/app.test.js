@@ -23,5 +23,17 @@ describe('CRUD Albums', () => {
 				done();
 			});
 	});
-});
 
+	it('Show a single album by id', (done) => {
+		request(app)
+			.get('/api/v1/albums/1')
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200)
+			.then((res) => {
+				expect(res.body).to.be.a('object');
+				expect(res.body).to.deep.equal(fixtures.albums[0]);
+				done();
+			});
+	});
+});
