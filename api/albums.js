@@ -10,11 +10,12 @@ function isValidId(req, res, next) {
 }
 
 function validAlbum(album) {
-	const hasName = typeof album.name === 'string' && album.name.trim() != '';
+	console.log('album', album);
+	const hasAlbumName = typeof album.album === 'string' && album.album.trim() != '';
 	const hasArtist = typeof album.artist === 'string' && album.artist.trim() != '';
 	const hasGenre = typeof album.genre === 'string' && album.genre.trim() != '';
-	const hasYear = typeof album.year === 'number' && album.year.toString() === 4;
-	return hasName && hasArtist && hasGenre && hasYear;
+	const hasYear = typeof album.year === 'number' && album.year.toString().length === 4;
+	return hasAlbumName && hasArtist && hasGenre && hasYear;
 }
 
 router.get('/', (req, res) => {
@@ -35,9 +36,9 @@ router.get('/:id', isValidId, (req, res, next) => {
 
 router.post('/', (req, res, next) => {
 	if (validAlbum(req.body)) {
-		query.create(req.body).then((albums) => res.json(albums[0]));
+		queries.create(req.body).then((albums) => res.json(albums[0]));
 	} else {
-		next(new Error('Invalid Sticker'));
+		next(new Error('Invalid Album'));
 	}
 });
 
