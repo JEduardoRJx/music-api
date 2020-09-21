@@ -1,9 +1,9 @@
 const knex = require('../db/knex'); // connection
 
 describe('CRUD Albums', () => {
-	before(() => {
+	before((done) => {
 		// run migrations
-		knex.migrate.latest().then(() => knex.seed.run());
 		// run seeds
+		knex.migrate.latest().then(() => knex.seed.run()).then(() => done());
 	});
 });
