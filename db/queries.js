@@ -6,5 +6,8 @@ module.exports = {
 	},
 	getOne(id) {
 		return knex('album').where('id', id).first();
+	},
+	create(album) {
+		return knex('album').insert(album, '*');
 	}
 };
