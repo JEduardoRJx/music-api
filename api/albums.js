@@ -15,9 +15,13 @@ router.get('/', (req, res) => {
 	});
 });
 
-router.get('/:id', isValidId, (req, res) => {
-	res.json({
-		message: 'single route yo'
+router.get('/:id', isValidId, (req, res, next) => {
+	queries.getOne(req.params.id).then((album) => {
+		if (album) {
+			res.json(album);
+		} else {
+			next();
+		}
 	});
 });
 
