@@ -10,7 +10,6 @@ function isValidId(req, res, next) {
 }
 
 function validAlbum(album) {
-	console.log('album', album);
 	const hasAlbumName = typeof album.album === 'string' && album.album.trim() != '';
 	const hasArtist = typeof album.artist === 'string' && album.artist.trim() != '';
 	const hasGenre = typeof album.genre === 'string' && album.genre.trim() != '';
