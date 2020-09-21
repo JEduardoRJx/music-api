@@ -14,7 +14,7 @@ function validAlbum(album) {
 	const hasArtist = typeof album.artist === 'string' && album.artist.trim() != '';
 	const hasGenre = typeof album.genre === 'string' && album.genre.trim() != '';
 	const hasYear = typeof album.year === 'number' && album.year.toString() === 4;
-	return hasName && hasArtist && hasGenre && hasYear
+	return hasName && hasArtist && hasGenre && hasYear;
 }
 
 router.get('/', (req, res) => {
@@ -35,7 +35,7 @@ router.get('/:id', isValidId, (req, res, next) => {
 
 router.post('/', (req, res, next) => {
 	if (validAlbum(req.body)) {
-
+		query.create(req.body).then((albums) => res.json(albums[0]));
 	} else {
 		next(new Error('Invalid Sticker'));
 	}
