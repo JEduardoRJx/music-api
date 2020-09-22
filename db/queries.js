@@ -9,5 +9,8 @@ module.exports = {
 	},
 	create(album) {
 		return knex('album').insert(album, '*');
+	},
+	update(id, album) {
+		return knex('album').where('id', id).update(album, '*');
 	}
 };
