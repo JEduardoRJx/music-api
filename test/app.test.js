@@ -71,20 +71,33 @@ describe('CRUD Albums', () => {
 			.catch((error) => {
 				return error && done();
 			});
-  });
-  
-  it('Deletes an album', done => {
-    request(app)
-    .delete('/api/v1/albums/104')
-    .set('Accept', 'application/json')
-    .expect('Content-Type', /json/)
-    .expect(200)
-    .then((res) => {
-      expect(res.body).to.be.a('object');
-      expect(res.body).to.deep.equal({
-        deleted: true
-      });
-      done();
-    })
-  })
+	});
+
+	it('Deletes an album', (done) => {
+		request(app)
+			.delete('/api/v1/albums/104')
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200)
+			.then((res) => {
+				expect(res.body).to.be.a('object');
+				expect(res.body).to.deep.equal({
+					deleted: true
+				});
+				done();
+			});
+	});
+
+	it('It lists all artists', (done) => {
+		request(app)
+			.get('/api/v1/artists')
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200)
+			.then((res) => {
+				expect(res.body).to.be.a('array');
+				expect(res.body.length).to.deep.equal(fixtures.albums.length);
+				done();
+			});
+	});
 });
