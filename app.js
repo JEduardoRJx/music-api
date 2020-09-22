@@ -14,7 +14,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // Routes
-app.use('/api/v1/albums', albums);
+app.use('/api/v1/', albums);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
