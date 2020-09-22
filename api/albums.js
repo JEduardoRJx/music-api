@@ -41,4 +41,12 @@ router.post('/', (req, res, next) => {
 	}
 });
 
+router.put('/:id', isValidId, (req, res, next) => {
+	if (validAlbum(req.body)) {
+		queries.update(req.params.id, req.body).then((albums) => res.json(albums[0]));
+	} else {
+		next(new Error('Invalid Album'));
+	}
+});
+
 module.exports = router;
