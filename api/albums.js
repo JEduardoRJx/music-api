@@ -17,13 +17,13 @@ function validAlbum(album) {
 	return hasAlbumName && hasArtist && hasGenre && hasYear;
 }
 
-router.get('/', (req, res) => {
+router.get('/albums', (req, res) => {
 	queries.getAll().then((albums) => {
 		res.json(albums);
 	});
 });
 
-router.get('/:id', isValidId, (req, res, next) => {
+router.get('/albums/:id', isValidId, (req, res, next) => {
 	queries.getOne(req.params.id).then((album) => {
 		if (album) {
 			res.json(album);
@@ -33,7 +33,16 @@ router.get('/:id', isValidId, (req, res, next) => {
 	});
 });
 
-router.post('/', (req, res, next) => {
+router.get('/artists', (req, res) => {
+	queries.getAll().then(albums => {
+		const artists = albums.map(album => {
+			return {id: album.id, artist: album.artist}
+		})
+		res.json(artists);
+	})
+})
+
+router.post('/albums', (req, res, next) => {
 	if (validAlbum(req.body)) {
 		queries.create(req.body).then((albums) => res.json(albums[0]));
 	} else {
@@ -41,7 +50,7 @@ router.post('/', (req, res, next) => {
 	}
 });
 
-router.put('/:id', isValidId, (req, res, next) => {
+router.put('/albums/:id', isValidId, (req, res, next) => {
 	if (validAlbum(req.body)) {
 		queries.update(req.params.id, req.body).then((albums) => res.json(albums[0]));
 	} else {
@@ -49,7 +58,7 @@ router.put('/:id', isValidId, (req, res, next) => {
 	}
 });
 
-router.delete('/:id', isValidId, (req, res, next) => {
+router.delete('/albums/:id', isValidId, (req, res, next) => {
 	queries.delete(req.params.id, req.body).then(() => res.json({ deleted: true }));
 });
 
