@@ -54,4 +54,22 @@ describe('CRUD Albums', () => {
 				return error && done();
 			});
 	});
+
+	it('Updates an album', (done) => {
+		fixtures.album.genre = 'Alternative Pop';
+		request(app)
+			.put('/api/v1/albums/104')
+			.send(fixtures.album)
+			.set('Accept', 'application/json')
+			.expect('Content-Type', /json/)
+			.expect(200)
+			.then((res) => {
+				expect(res.body).to.be.a('object');
+				expect(res.body).to.deep.equal(fixtures.album);
+				done();
+			})
+			.catch((error) => {
+				return error && done();
+			});
+	});
 });
