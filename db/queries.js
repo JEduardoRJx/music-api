@@ -12,5 +12,8 @@ module.exports = {
 	},
 	update(id, album) {
 		return knex('album').where('id', id).update(album, '*');
+	},
+	delete(id) {
+		return knex('album').where('id', id).del();
 	}
 };
