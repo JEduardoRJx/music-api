@@ -34,13 +34,46 @@ router.get('/albums/:id', isValidId, (req, res, next) => {
 });
 
 router.get('/artists', (req, res) => {
-	queries.getAll().then(albums => {
-		const artists = albums.map(album => {
-			return {id: album.id, artist: album.artist}
-		})
+	queries.getAll().then((albums) => {
+		let artists = [];
+		albums.forEach((album, i) => {
+			if (!artists.includes(album.artist)) {
+				artists.push(album.artist);
+			}
+		});
+
+		artists = artists.map((artist, i) => {
+			return { id: i + 1, artist: artist };
+		});
+
 		res.json(artists);
-	})
-})
+	});
+});
+
+router.get('/artists/:id', isValidId, (req, res, next) => {
+	const artistId = parseInt(req.params.id);
+
+	queries.getAll().then((albums) => {
+		const allArtists = albums.map((album) => {
+			return { id: album.id, artist: album.artist };
+		});
+
+		if (artistId < allArtists.length) {
+			const artist = allArtists.find((artist) => artist.id === artistId);
+
+			const artistAlbums = albums.reduce((acc, album) => {
+				if (artist.artist === album.artist) {
+					acc.push({ id: album.id, name: album.album, genre: album.genre, year: album.year });
+				}
+				return acc;
+			}, []);
+
+			res.json({ ...artist, albums: artistAlbums });
+		} else {
+			next(new Error('Invalid Artist Id'));
+		}
+	});
+});
 
 router.post('/albums', (req, res, next) => {
 	if (validAlbum(req.body)) {
