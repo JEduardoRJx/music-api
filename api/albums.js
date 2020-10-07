@@ -75,6 +75,24 @@ router.get('/artists/:id', isValidId, (req, res, next) => {
 	});
 });
 
+router.get('/genres', (req, res) => {
+	queries.getAll().then((albums) => {
+		const allGenresInfo = albums.reduce((acc, album) => {
+			if (!acc[album.genre]) {
+				acc[album.genre] = 1;
+			}
+			acc[album.genre] += 1;
+			return acc;
+		}, {});
+
+		const allGenres = Object.keys(allGenresInfo).map((genre, i) => {
+			return { id: i + 1, genre: genre, numOfAlbums: allGenresInfo[genre] };
+		}, {});
+
+		res.json(allGenres);
+	});
+});
+
 router.post('/albums', (req, res, next) => {
 	if (validAlbum(req.body)) {
 		queries.create(req.body).then((albums) => res.json(albums[0]));
