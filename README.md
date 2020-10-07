@@ -1,4 +1,8 @@
 # music-api
+The following is documentation for Version (v1) released October 2020. Tech used for the backend:
+  * Express
+  * Knex
+  * PostgreSQL
 
 ## Response Format
  Response format is in `JSON`
