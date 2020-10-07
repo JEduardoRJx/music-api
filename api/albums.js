@@ -13,8 +13,16 @@ function validAlbum(album) {
 	const hasAlbumName = typeof album.album === 'string' && album.album.trim() != '';
 	const hasArtist = typeof album.artist === 'string' && album.artist.trim() != '';
 	const hasGenre = typeof album.genre === 'string' && album.genre.trim() != '';
-	const hasYear = typeof album.year === 'number' && album.year.toString().length === 4;
+	const hasYear = typeof album.year === 'string' && album.year.toString().length === 4;
 	return hasAlbumName && hasArtist && hasGenre && hasYear;
+}
+
+function hasValidAlbumProps(album) {
+	const hasAlbumName = typeof album.album === 'string' && album.album.trim() != '';
+	const hasArtist = typeof album.artist === 'string' && album.artist.trim() != '';
+	const hasGenre = typeof album.genre === 'string' && album.genre.trim() != '';
+	const hasYear = typeof album.year === 'string' && album.year.toString().length === 4;
+	return hasAlbumName || hasArtist || hasGenre || hasYear;
 }
 
 router.get('/albums', (req, res) => {
@@ -94,16 +102,18 @@ router.get('/genres', (req, res) => {
 });
 
 router.post('/albums', (req, res, next) => {
-	if (validAlbum(req.body)) {
-		queries.create(req.body).then((albums) => res.json(albums[0]));
+	const { album } = req.query;
+	if (validAlbum(album)) {
+		queries.create(album).then((albums) => res.json(albums[0]));
 	} else {
 		next(new Error('Invalid Album'));
 	}
 });
 
 router.put('/albums/:id', isValidId, (req, res, next) => {
-	if (validAlbum(req.body)) {
-		queries.update(req.params.id, req.body).then((albums) => res.json(albums[0]));
+	const { album } = req.query;
+	if (hasValidAlbumProps(album)) {
+		queries.update(req.params.id, album).then((albums) => res.json(albums[0]));
 	} else {
 		next(new Error('Invalid Album'));
 	}
