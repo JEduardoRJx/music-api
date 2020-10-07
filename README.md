@@ -5,7 +5,7 @@
  
  ## All Routes
 All Routes stem from:
-[To Music API](https://musick-api.herokuapp.com/api/v1/albums/)
+[Music API](https://musick-api.herokuapp.com/api/v1/albums/)
 `https://musick-api.herokuapp.com/api/v1/albums`
 
 ## GET All Albums
@@ -58,19 +58,19 @@ Will return all albums.
         "artist": "Rihanna",
         "genre": "Hip hop",
         "year": 2016
-        }
-      ]  
+       }
+     ]  
 ```
 </details>
 
-## GET An Album
+## GET A Single Album
 `GET /api/v1/albums/:id`
 <details>
-Will return all albums.
+Will return a single album.
 
 | **Param**     | **Value**     | **Description**  |
 | ------------- |:-------------:| ----------------|
-| `id`          | *integer*     | Projects id, ex: `1`|
+| `id`          | *integer*     | Album id, ex: `1`|
 | `album`       | *string*      | Name of album:, ex: `Thriller` |
 | `artist`      | *string*      | Name of artist, ex: `Michael Jackson` |
 | `genre`       | *string*      | Genre, ex: `Pop` |
@@ -86,7 +86,7 @@ Will return all albums.
         "genre": "Pop",
         "year": 1982
        }
-      ]  
+     ]  
 ```
 </details>
 
@@ -97,7 +97,7 @@ Will return all artists.
 
 | **Param**     | **Value**     | **Description**  |
 | ------------- |:-------------:| ----------------|
-| `id`          | *integer*     | Projects id, ex: `1`|
+| `id`          | *integer*     | Artist id, ex: `1`|
 | `artist`      | *string*      | Name of artist, ex: `Michael Jackson` |
 
 ### Sample Response
@@ -111,28 +111,43 @@ Will return all artists.
         "id": 2,
         "artist": "Future Islands",
        }
-      ]  
+     ]  
 ```
 </details>
 
-## GET An Artist
-`GET /api/v1/artists?:id`
+## GET A Single Artist
+`GET /api/v1/artists/:id`
 <details>
-Will return all artists.
+Will return a single album.
 
 | **Param**     | **Value**     | **Description**  |
 | ------------- |:-------------:| ----------------|
-| `id`          | *integer*     | Projects id, ex: `1`|
+| `id`          | *integer*     | artist id, ex: `1`|
 | `artist`      | *string*      | Name of artist, ex: `Michael Jackson` |
+| `albums`      | *array*       | Arayy of albums, ex: See below |
 
 ### Sample Response
 ```javascript 
     [
-      {
-        "id": 1,
-        "artist": "Michael Jackson",
-       }
-      ]  
+     {
+      "id": 1,
+      "artist": "Michael Jackson",
+      "albums": [
+                 {
+                  "id": 1,
+                  "name": "Thriller",
+                  "genre": "Pop",
+                  "year": 1982
+                 },
+                 {
+                  "id": 90,
+                  "name": "Dangerous",
+                  "genre": "Pop",
+                  "year": 1991
+                 }
+                ]
+      }
+     ]  
 ```
 </details>
 
@@ -171,16 +186,16 @@ Will return all genres.
 </details>
 
 ## POST An Album via Query
-`GET /api/v1/albums/?album[album]=NameOfAlbum&album[genre]=genre&album[artist]=nameOfArtist&album[year]=2020`
+`POST /api/v1/albums/?album[album]=NameOfAlbum&album[genre]=genre&album[artist]=nameOfArtist&album[year]=2020`
 <details>
-Will Post a new genre all genres.
+Will Post a new album using queries. All four queires are **required**
 
-| **Param**     | **Value**     | **Description**  |
-| ------------- |:-------------:| ----------------|
-| `album[album]`| *string*      | Name Of Album, ex: `Album Name`|
-| `artist`      | *string*      | Name of artist, ex: `Artist Name` |
-| `genre`       | *string*      | Genre typet, ex: `Pop` |
-| `year`        | *string*      | Year release, ex: `2020` |
+| **Param**       | **Value**     | **Description**  |
+| -------------   |:-------------:| ----------------|
+| `album[album]`  | *string*      | Name Of Album, ex: `Album Name`|
+| `album[artist]` | *string*      | Name of artist, ex: `Artist Name` |
+| `album[genre]`  | *string*      | Genre typet, ex: `Pop` |
+| `album[year]`   | *string*      | Year release, ex: `2020` |
 
 ### Sample Response
 ```javascript 
@@ -200,14 +215,19 @@ Will Post a new genre all genres.
 ## PUT An Album via Query
 `PUT /api/v1/albums/?album[album]=NameOfAlbum&album[genre]=genre&album[artist]=nameOfArtist&album[year]=2020`
 <details>
-Will update an existing album. You do not need all four values just one query at least
+Will update an existing album using queries. You do **NOT** need all four queries, just one at least.
 
 | **Param**     | **Value**     | **Description**  |
 | ------------- |:-------------:| ----------------|
-| `album[album]`| *string*      | Name Of Album, ex: `Album Name`|
-| `artist`      | *string*      | Name of artist, ex: `Artist Name` |
-| `genre`       | *string*      | Genre typet, ex: `Pop` |
-| `year`        | *string*      | Year release, ex: `2020` |
+| `album[album]`  | *string*      | Name Of Album, ex: `Album Name`|
+| `album[artist]` | *string*      | Name of artist, ex: `Artist Name` |
+| `album[genre]`  | *string*      | Genre typet, ex: `Pop` |
+| `album[year]`   | *string*      | Year release, ex: `2019` |
+
+## Sample Request
+```javascript 
+    /api/v1/albums/album[year]=2019 
+```
 
 ### Sample Response
 ```javascript 
@@ -217,7 +237,7 @@ Will update an existing album. You do not need all four values just one query at
         "album": "Album Name",
         "artist": "Artist Name",
         "genre": "Pop",
-        "year": 2020
+        "year": 2019
        }
       ]  
 ```
